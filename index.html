@@ -397,6 +397,120 @@
 
       </svg>
     </figure>
+
+    <!-- New: Grouped windows scene (Step 4) - inserted below the existing three SVGs.
+         Only this SVG contains the window <g> and the two <use> instances. -->
+    <figure id="scene-grouped-figure">
+      <figcaption>Grouped windows scene (Step 4)</figcaption>
+
+      <svg id="scene-grouped" viewBox="0 0 800 500" role="img" aria-labelledby="svgTitle4 svgDesc4" xmlns="http://www.w3.org/2000/svg" focusable="false">
+        <title id="svgTitle4">T04 – SVG House &amp; Garden (grouped windows)</title>
+        <desc id="svgDesc4">A copy of the scene demonstrating grouping: windows refactored into a reusable &lt;g id="window"&gt; and placed with &lt;use&gt;.</desc>
+
+        <!-- Scoped styles for this grouped copy only -->
+        <style>
+          /* Keep these styles local to #scene-grouped so other SVGs are unaffected */
+          #scene-grouped .win-rect { fill: #bfefff; stroke: #7fb6c8; }
+          #scene-grouped .win-line { stroke: #7fb6c8; stroke-width: 2; stroke-linecap: round; }
+        </style>
+
+        <!-- sky (rect) -->
+        <rect x="0" y="0" width="800" height="350" fill="#87ceeb" />
+
+        <!-- grass (rect) -->
+        <rect x="0" y="350" width="800" height="150" fill="#65b32e" />
+
+        <!-- sun (circle) -->
+        <circle cx="700" cy="80" r="40" fill="#FFD54A" />
+
+        <!-- cloud (ellipses) -->
+        <g fill="#ffffff" opacity="0.95">
+          <ellipse cx="140" cy="80" rx="36" ry="22" />
+          <ellipse cx="170" cy="70" rx="44" ry="26" />
+          <ellipse cx="205" cy="82" rx="34" ry="20" />
+        </g>
+
+        <!-- tree trunk (rect) and foliage (circle) -->
+        <rect x="110" y="260" width="30" height="90" fill="#8b5a2b" />
+        <circle cx="125" cy="235" r="45" fill="#2e8b57" />
+
+        <!-- small bush as ellipse -->
+        <ellipse cx="165" cy="340" rx="30" ry="18" fill="#2e8b57" />
+
+        <!-- house body (rect) -->
+        <rect x="300" y="220" width="220" height="160" rx="6" ry="6" fill="#f5deb3" stroke="#c9a96d" />
+
+        <!-- roof (polygon) -->
+        <polygon points="290,220 410,140 540,220" fill="#8B0000" stroke="#6b0000" />
+
+        <!-- chimney (rect) and small smoke lines (line elements) -->
+        <rect x="475" y="150" width="20" height="45" fill="#A0522D" stroke="#7a3f28" />
+        <line x1="483" y1="145" x2="483" y2="130" stroke="#bbb" stroke-width="2" stroke-linecap="round" />
+        <line x1="490" y1="140" x2="490" y2="120" stroke="#ccc" stroke-width="2" stroke-linecap="round" />
+
+        <!-- door (rect) and doorknob (circle) -->
+        <rect x="380" y="300" width="50" height="80" rx="4" fill="#6b3e2a" />
+        <circle cx="425" cy="340" r="3.5" fill="#f0d2a8" />
+
+        <!-- Reusable window group definition:
+             - rect is 35x30 (as requested)
+             - two mullion lines (vertical and horizontal)
+             Benefit: grouping lets us define the window once and place multiple identical instances
+             with <use>, reducing duplication and easing future updates (e.g., change color or border once). -->
+        <g id="window" aria-hidden="true">
+          <rect class="win-rect" x="0" y="0" width="35" height="30" rx="3" ry="3" />
+          <!-- vertical mullion at half the 35px width -->
+          <line class="win-line" x1="17.5" y1="0" x2="17.5" y2="30" />
+          <!-- horizontal mullion at half the 30px height -->
+          <line class="win-line" x1="0" y1="15" x2="35" y2="15" />
+        </g>
+
+        <!-- Instead of two separate rect windows, place two <use> references to #window.
+             Translate coordinates chosen to align each 35x30 window visually where the original 40x40 windows were:
+             - Original left window: x=320,y=250 (40x40)
+               To center the smaller 35x30 window in the same place:
+               translateX = 320 + (40 - 35) / 2 = 322.5
+               translateY = 250 + (40 - 30) / 2 = 255
+             - Original right window: x=440,y=250 (40x40)
+               translateX = 440 + (40 - 35) / 2 = 442.5
+               translateY = 250 + (40 - 30) / 2 = 255
+             Comments: fractional translate values (322.5 / 442.5) are acceptable in SVG coordinates
+             and keep the windows visually centered relative to the originals. -->
+        <use href="#window" transform="translate(322.5,255)" />
+        <use href="#window" transform="translate(442.5,255)" />
+
+        <!-- sign post (line + polygon used as small sign) -->
+        <line x1="520" y1="320" x2="520" y2="360" stroke="#6b4a2b" stroke-width="6" />
+        <polygon points="525,330 565,330 565,350 525,350" fill="#fff5d6" stroke="#c9b089" />
+
+        <!-- decorative polygon flower (polygon used again) -->
+        <polygon points="620,420 635,440 605,440" fill="#ff6f61" />
+        <circle cx="620" cy="440" r="6" fill="#ffd36f" />
+
+        <!-- fence (polyline) - zigzag pickets across the mid-ground -->
+        <polyline points="
+          0,360 20,320 40,360 60,320 80,360 100,320 120,360 140,320 160,360 180,320
+          200,360 220,320 240,360 260,320 280,360 300,320 320,360 340,320 360,360 380,320
+          400,360 420,320 440,360 460,320 480,360 500,320 520,360 540,320 560,360 580,320 600,360 620,320 640,360 660,320 680,360 700,320 720,360 740,320 760,360 780,320 800,360"
+          fill="none" stroke="#7b4b2d" stroke-width="6" stroke-linejoin="round" />
+
+        <!-- pathway (path) - curved path from door to foreground (path element) -->
+        <path d="M405 380
+                 C 395 420, 360 450, 320 470
+                 S 240 490, 180 490"
+              fill="none" stroke="#e6d7b6" stroke-width="28" stroke-linecap="round" opacity="0.95" />
+
+        <!-- small stepping stones as circles along path (circle used again) -->
+        <circle cx="360" cy="440" r="6" fill="#c8bca0" />
+        <circle cx="310" cy="460" r="6" fill="#c8bca0" />
+
+        <!-- path border (thin line path) demonstrating path stroke and a polygon for detail -->
+        <path d="M405 380 C 395 420, 360 450, 320 470 S 240 490, 180 490" fill="none" stroke="#bfae85" stroke-width="2" />
+
+        <!-- caption text (text) -->
+        <text x="400" y="492" class="caption" font-size="18">T04 – SVG House &amp; Garden (grouped)</text>
+      </svg>
+    </figure>
   </div>
 </body>
 </html>
